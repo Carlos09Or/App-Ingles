@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulario Inglés-Español por Temas</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <!-- Menú Principal -->
+    <div id="mainMenu" class="game-area active">
+        <div class="container">
+            <h1 class="game-title">🎓 Vocabulario Inglés-Español</h1>
+            <p class="game-subtitle">Aprende inglés jugando por temas</p>
+            
+            <div class="stats-summary">
+                <div class="stat-item">
+                    <span class="stat-number" id="totalWords">0</span>
+                    <span class="stat-label">Palabras</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalThemes">0</span>
+                    <span class="stat-label">Temas</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="bestStreak">0</span>
+                    <span class="stat-label">Mejor Racha</span>
+                </div>
+            </div>
+
+            <div class="menu-buttons">
+                <button class="menu-btn primary" onclick="showThemes()">
+                    🎯 Jugar por Temas
+                </button>
+                <button class="menu-btn secondary" onclick="startMixedGame()">
+                    🎲 Juego Mixto
+                </button>
+                <button class="menu-btn tertiary" onclick="showStats()">
+                    📊 Estadísticas
+                </button>
+                <button class="menu-btn tertiary" onclick="showAddWord()">
+                    ➕ Agregar Palabra
+                </button>
+                <button class="menu-btn tertiary" onclick="showWordList()">
+                    📖 Ver Vocabulario
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Selección de Temas -->
+    <div id="themesArea" class="game-area">
+        <div class="container">
+            <div class="header">
+                <button class="back-btn" onclick="showMenu()">← Volver</button>
+                <h2>Selecciona un Tema</h2>
+            </div>
+            <div id="themeGrid" class="theme-grid">
+                <!-- Los temas se cargan dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Área de Juego -->
+    <div id="gameArea" class="game-area">
+        <div class="container">
+            <div class="game-header">
+                <button class="back-btn" onclick="endGame()">← Salir</button>
+                <div class="game-info">
+                    <span id="currentThemeDisplay">Tema Actual</span>
+                    <span id="wordCounter">0</span>/<span id="totalThemeWords">0</span>
+                </div>
+                <div id="streakIndicator" class="streak">🔥 Racha: 0</div>
+            </div>
+
+            <div class="word-display">
+                <div class="word-card">
+                    <div class="word-english" id="currentWord">WORD</div>
+                    <div class="word-prompt">Escribe la traducción en español:</div>
+                    <input type="text" id="answerInput" class="answer-input" 
+                           placeholder="Tu respuesta..." onkeypress="handleKeyPress(event)">
+                    <div class="game-buttons">
+                        <button class="game-btn check" onclick="checkAnswer()">✓ Comprobar</button>
+                        <button class="game-btn skip" onclick="skipWord()">→ Saltar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="feedback" class="feedback">¡Correcto! 🎉</div>
+        </div>
+    </div>
+
+    <!-- Estadísticas -->
+    <div id="statsArea" class="game-area">
+        <div class="container">
+            <div class="header">
+                <button class="back-btn" onclick="showMenu()">← Volver</button>
+                <h2>📊 Estadísticas</h2>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-title">Partidas Jugadas</div>
+                    <div class="stat-value" id="totalPlayed">0</div>
+                </div>
+                <div class="stat-card correct">
+                    <div class="stat-title">Respuestas Correctas</div>
+                    <div class="stat-value" id="correctAnswers">0</div>
+                </div>
+                <div class="stat-card incorrect">
+                    <div class="stat-title">Respuestas Incorrectas</div>
+                    <div class="stat-value" id="incorrectAnswers">0</div>
+                </div>
+                <div class="stat-card accuracy">
+                    <div class="stat-title">Precisión</div>
+                    <div class="stat-value" id="accuracy">0%</div>
+                    <div class="accuracy-bar">
+                        <div id="accuracyBar" class="accuracy-fill"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Agregar Palabra -->
+    <div id="addWordArea" class="game-area">
+        <div class="container">
+            <div class="header">
+                <button class="back-btn" onclick="showMenu()">← Volver</button>
+                <h2>➕ Agregar Nueva Palabra</h2>
+            </div>
+            
+            <div class="add-word-form">
+                <div class="form-group">
+                    <label>Tema:</label>
+                    <select id="themeSelect" class="form-input">
+                        <option value="">Selecciona un tema</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Palabra en Inglés:</label>
+                    <input type="text" id="englishInput" class="form-input" placeholder="Ejemplo: house">
+                </div>
+                
+                <div class="form-group">
+                    <label>Traducción en Español:</label>
+                    <input type="text" id="spanishInput" class="form-input" 
+                           placeholder="Ejemplo: casa" onkeypress="handleTranslationKeyPress(event)">
+                    <button class="add-translation-btn" onclick="addTranslation()">+ Agregar</button>
+                </div>
+                
+                <div id="translationsList" class="translations-list">
+                    <!-- Las traducciones se muestran aquí -->
+                </div>
+                
+                <button class="save-btn" onclick="saveNewWord()">💾 Guardar Palabra</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lista de Palabras -->
+    <div id="wordListArea" class="game-area">
+        <div class="container">
+            <div class="header">
+                <button class="back-btn" onclick="showMenu()">← Volver</button>
+                <h2>📖 Vocabulario</h2>
+            </div>
+            
+            <div class="word-list-controls">
+                <select id="viewThemeSelect" class="form-input" onchange="displayWordList()">
+                    <option value="all">Todas las palabras</option>
+                </select>
+            </div>
+            
+            <div id="wordList" class="word-list">
+                <!-- Las palabras se cargan dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <script src="database.js"></script>
+    <script src="Juego.js"></script>
+</body>
+</html>
